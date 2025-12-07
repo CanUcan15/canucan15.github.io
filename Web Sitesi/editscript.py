@@ -1,0 +1,145 @@
+from bs4 import BeautifulSoup
+import os
+
+script_dir = os.path.dirname(os.path.abspath(__file__))
+html_path = os.path.join(script_dir, "index.html")
+
+# CHANGE g["data-category"] = liste[symbol] FOR YOUR DATA ATTRIBUTE
+
+liste = {
+    "H": "nonmetal",
+    "He": "noble-gas",
+    "Li": "alkali-metal",
+    "Be": "alkaline-earth-metal",
+    "B": "metalloid",
+    "C": "nonmetal",
+    "N": "nonmetal",
+    "O": "nonmetal",
+    "F": "halogen",
+    "Ne": "noble-gas",
+    "Na": "alkali-metal",
+    "Mg": "alkaline-earth-metal",
+    "Al": "post-transition-metal",
+    "Si": "metalloid",
+    "P": "nonmetal",
+    "S": "nonmetal",
+    "Cl": "halogen",
+    "Ar": "noble-gas",
+    "K": "alkali-metal",
+    "Ca": "alkaline-earth-metal",
+    "Sc": "transition-metal",
+    "Ti": "transition-metal",
+    "V": "transition-metal",
+    "Cr": "transition-metal",
+    "Mn": "transition-metal",
+    "Fe": "transition-metal",
+    "Co": "transition-metal",
+    "Ni": "transition-metal",
+    "Cu": "transition-metal",
+    "Zn": "transition-metal",
+    "Ga": "post-transition-metal",
+    "Ge": "metalloid",
+    "As": "metalloid",
+    "Se": "nonmetal",
+    "Br": "halogen",
+    "Kr": "noble-gas",
+    "Rb": "alkali-metal",
+    "Sr": "alkaline-earth-metal",
+    "Y": "transition-metal",
+    "Zr": "transition-metal",
+    "Nb": "transition-metal",
+    "Mo": "transition-metal",
+    "Tc": "transition-metal",
+    "Ru": "transition-metal",
+    "Rh": "transition-metal",
+    "Pd": "transition-metal",
+    "Ag": "transition-metal",
+    "Cd": "transition-metal",
+    "In": "post-transition-metal",
+    "Sn": "post-transition-metal",
+    "Sb": "metalloid",
+    "Te": "metalloid",
+    "I": "halogen",
+    "Xe": "noble-gas",
+    "Cs": "alkali-metal",
+    "Ba": "alkaline-earth-metal",
+    "La": "lanthanide",
+    "Ce": "lanthanide",
+    "Pr": "lanthanide",
+    "Nd": "lanthanide",
+    "Pm": "lanthanide",
+    "Sm": "lanthanide",
+    "Eu": "lanthanide",
+    "Gd": "lanthanide",
+    "Tb": "lanthanide",
+    "Dy": "lanthanide",
+    "Ho": "lanthanide",
+    "Er": "lanthanide",
+    "Tm": "lanthanide",
+    "Yb": "lanthanide",
+    "Lu": "lanthanide",
+    "Hf": "transition-metal",
+    "Ta": "transition-metal",
+    "W": "transition-metal",
+    "Re": "transition-metal",
+    "Os": "transition-metal",
+    "Ir": "transition-metal",
+    "Pt": "transition-metal",
+    "Au": "transition-metal",
+    "Hg": "transition-metal",
+    "Tl": "post-transition-metal",
+    "Pb": "post-transition-metal",
+    "Bi": "post-transition-metal",
+    "Po": "metalloid",
+    "At": "halogen",
+    "Rn": "noble-gas",
+    "Fr": "alkali-metal",
+    "Ra": "alkaline-earth-metal",
+    "Ac": "actinide",
+    "Th": "actinide",
+    "Pa": "actinide",
+    "U": "actinide",
+    "Np": "actinide",
+    "Pu": "actinide",
+    "Am": "actinide",
+    "Cm": "actinide",
+    "Bk": "actinide",
+    "Cf": "actinide",
+    "Es": "actinide",
+    "Fm": "actinide",
+    "Md": "actinide",
+    "No": "actinide",
+    "Lr": "actinide",
+    "Rf": "transition-metal",
+    "Db": "transition-metal",
+    "Sg": "transition-metal",
+    "Bh": "transition-metal",
+    "Hs": "transition-metal",
+    "Mt": "unknown",
+    "Ds": "unknown",
+    "Rg": "unknown",
+    "Cn": "transition-metal",
+    "Nh": "post-transition-metal",
+    "Fl": "post-transition-metal",
+    "Mc": "post-transition-metal",
+    "Lv": "post-transition-metal",
+    "Ts": "halogen",
+    "Og": "noble-gas"
+}
+
+# Load your HTML file
+with open(html_path, "r", encoding="utf-8") as f:
+    soup = BeautifulSoup(f, "html.parser")
+
+# Add data-category attribute to each element
+for g in soup.find_all("g", class_="element"):
+    symbol = g.get("data-symbol")
+    if symbol in liste:
+        g["data-category"] = liste[symbol]
+
+# Save updated HTML
+output_path = os.path.join(script_dir, "index_update.html")
+with open(output_path, "w", encoding="utf-8") as f:
+    f.write(str(soup))
+
+print("completed successfully!")

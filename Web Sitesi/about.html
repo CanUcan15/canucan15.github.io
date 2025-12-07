@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About | Periodic Table 2.0</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            padding: 3rem 1rem;
+            color: var(--text-color, #fff);
+            background: var(--bg-gradient, radial-gradient(circle at 20% 20%, #1e1e2f, #0c0c16));
+            font-family: 'Inter', sans-serif;
+        }
+
+        .content {
+            max-width: 900px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            transition: transform 0.25s ease, background 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .card h2 {
+            color: #7dd3fc;
+            margin-bottom: 0.75rem;
+            font-size: 1.3rem;
+        }
+
+        .card p {
+            line-height: 1.6;
+            font-size: 0.95rem;
+            color: #ddd;
+        }
+
+        footer {
+            margin-top: 3rem;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        h3 {
+            text-align: center;
+            margin: 2rem 0 1.5rem 0;
+            font-size: 1.8rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: #dadada;
+            text-shadow: 0 0 8px rgba(81, 81, 81, 0.332);
+        }
+
+    </style>
+</head>
+
+<body>
+    <header>
+        <a class="header-name-link" href="index.html">
+            <h4 class="header-name">Periodic Table 2.0</h4>
+        </a>
+        <nav>
+            <a class="nav-link" href="#">Learning</a>
+            <a class="nav-link" href="about.html">About</a>
+            <a class="nav-link" href="contact.html">Contact</a>
+        </nav>
+    </header>
+
+    <h3>-About Periodic Table 2.0-</h3>
+
+    <section class="content">
+
+        <div class="card">
+            <h2>🔬 The Idea</h2>
+            <p>
+                This project was created to make exploring the periodic table more intuitive, interactive,
+                and visually engaging. You can filter, search, and discover facts about elements with ease.
+            </p>
+        </div>
+
+        <div class="card">
+            <h2>⚙️ Technologies Used</h2>
+            <p>
+                Built using HTML5, CSS3, and vanilla JavaScript — no frameworks, just clean, efficient code.
+                The table and filters are dynamically rendered, and animations keep it fun.
+            </p>
+        </div>
+
+        <div class="card">
+            <h2>💡 Features</h2>
+            <p>
+                Interactive filtering by category, instant element search, and animated transitions.
+                Additional features like hover effects, group highlighting, and educational tooltips
+                are designed for both students and enthusiasts.
+            </p>
+        </div>
+
+        <div class="card">
+            <h2>👨‍💻 Credits & Contributors</h2>
+            <p>
+                Created and maintained by Can Uçan. Open for collaboration — feel free to suggest
+                improvements or contribute via GitHub!
+            </p>
+        </div>
+
+    </section>
+
+    <footer>
+        © <span id="year"></span> Periodic Table 2.0 Project
+    </footer>
+
+    <script>
+        // Auto-update footer year
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+    <script src="main.js"></script>
+    <canvas id="bg-particles"></canvas>
+</body>
+
+</html>
