@@ -1,5 +1,9 @@
-// script.js (FULL REPLACEMENT)
 document.addEventListener('DOMContentLoaded', () => {
+
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+
   const infoCard = document.getElementById('info-card');
   if (!infoCard) {
     console.error('script.js: #info-card not found in DOM.');
@@ -211,6 +215,39 @@ document.addEventListener('DOMContentLoaded', () => {
     el.style.setProperty('--accent', fill);
     el.addEventListener('mouseenter', () => el.classList.add('hover-glow'));
     el.addEventListener('mouseleave', () => el.classList.remove('hover-glow'));
+  });
+
+  const tooltip = document.getElementById('element-tooltip');
+
+  document.addEventListener('mousemove', (e) => {
+    if (!tooltip.classList.contains('visible')) return;
+
+    const offsetX = 12;
+    const offsetY = 14;
+
+    const maxX = window.innerWidth - tooltip.offsetWidth - 8;
+    const maxY = window.innerHeight - tooltip.offsetHeight - 8;
+
+    const x = Math.min(e.clientX + offsetX, maxX);
+    const y = Math.min(e.clientY + offsetY, maxY);
+
+    tooltip.style.left = `${x}px`;
+    tooltip.style.top = `${y}px`;
+  });
+
+  
+  document.querySelectorAll('.element').forEach(el => {
+    const name = el.dataset.name;
+    const symbol = el.dataset.symbol;
+
+    el.addEventListener('mouseenter', () => {
+      tooltip.innerHTML = `<strong>${symbol}</strong> — ${name}`;
+      tooltip.classList.add('visible');
+    });
+
+    el.addEventListener('mouseleave', () => {
+      tooltip.classList.remove('visible');
+    });
   });
 
 
