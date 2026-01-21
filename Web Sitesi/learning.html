@@ -20,33 +20,58 @@
             <a class="nav-link" href="contact.html">Contact</a>
         </nav>
     </header>
-
+    <br><br>
     <main class="learning-container">
         <section class="quiz-card">
 
-            <div class="quiz-header">
-                <div class="quiz-title">Periodic Table Quiz</div>
-                <div class="quiz-meta">Score: 0</div>
+            <div class="quiz-screen active" id="start-screen">
+                <h2 class="quiz-title">Periodic Table Quiz</h2>
+
+                <p class="quiz-subtitle">Choose your difficulty</p>
+
+                <div class="difficulty-selector">
+                    <button class="difficulty-btn" data-difficulty="easy">Easy</button>
+                    <button class="difficulty-btn" data-difficulty="medium">Medium</button>
+                    <button class="difficulty-btn" data-difficulty="hard">Hard</button>
+                </div>
+
+                <button id="start-quiz-btn" class="start-btn">Start Quiz</button>
             </div>
 
-            <div class="question">
-                What is the symbol for Sodium?</div>
+            <div class="quiz-screen" id="quiz-screen">
+                <div class="quiz-header">
+                    <div class="quiz-meta">Score: 0</div>
+                    <div class="timer">15</div>
+                </div>
 
-            <div class="answers">
-                <button class="answer-btn">Na</button>
-                <button class="answer-btn">S</button>
-                <button class="answer-btn">So</button>
-                <button class="answer-btn">Sn</button>
-            </div>
+                <div class="question"></div>
+                <div class="quiz-type"></div>
 
-            <div class="quiz-footer">
-                <div class="progress">Question 1 / 10</div>
+                <div class="answers">
+                    <button class="answer-btn"></button>
+                    <button class="answer-btn"></button>
+                    <button class="answer-btn"></button>
+                    <button class="answer-btn"></button>
+                </div>
+
                 <button class="next-btn">Next</button>
+
+                <div class="progress"></div>
+            </div>
+
+            <div class="quiz-screen" id="result-screen">
+                <h2>Quiz Complete 🎉</h2>
+
+                <span id="result-correct"></span>
+                <span id="result-wrong"></span>
+                <span id="result-score"></span>
+
+                <button class="restart-btn">Restart Quiz</button>
             </div>
 
         </section>
     </main>
-
+    <script src="elements-data.js"></script>
     <script src="learning.js"></script>
 </body>
 

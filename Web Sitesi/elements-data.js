@@ -1,7 +1,7 @@
 // AUTO-GENERATED FILE — DO NOT EDIT MANUALLY
 // Generated from index.html
 
-const ELEMENTS = [
+window.ELEMENTS_DATA = [
   {
     "id": "H",
     "symbol": "H",
@@ -14,7 +14,7 @@ const ELEMENTS = [
     "category": "nonmetal",
     "state": "Gas",
     "appearance": "colorless gas",
-    "density": 8.988e-05,
+    "density": 0.00008988,
     "meltingPoint": 13.81,
     "boilingPoint": 20.28,
     "electronegativity": 2.2,

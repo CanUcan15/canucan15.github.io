@@ -727,3 +727,62 @@ svg {
   transform: translateY(-1px);
   box-shadow: 0 6px 20px rgba(90, 108, 255, 0.4);
 }
+
+.difficulty-selector {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.difficulty-btn {
+  padding: 0.35rem 0.75rem;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: transparent;
+  color: #fff;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.difficulty-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.difficulty-btn.active {
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+  border-color: transparent;
+  box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.6);
+}
+
+.quiz-screen {
+  display: none;
+  text-align: center;
+}
+
+.quiz-screen.active {
+  display: block;
+}
+
+.start-btn,
+.restart-btn {
+  margin-top: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+  color: white;
+}
+
+.quiz-subtitle {
+  margin-bottom: 0.75rem;
+  opacity: 0.85;
+}
+
+.timer {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #f87171;
+}
