@@ -621,3 +621,109 @@ svg {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* learning page */
+.learning-container {
+  width: 100%;
+  max-width: 900px;
+  padding: 2rem 1.5rem;
+}
+
+.quiz-card {
+  background: linear-gradient(
+    135deg,
+    rgba(25, 25, 40, 0.95),
+    rgba(15, 15, 25, 0.95)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(12px);
+}
+
+.quiz-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  gap: 1rem;
+}
+
+.quiz-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.quiz-meta {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.question {
+  font-size: 1.25rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.4;
+}
+
+.answers {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.answer-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  padding: 0.9rem 1rem;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.answer-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-2px);
+}
+
+.answer-btn.correct {
+  background: rgba(60, 200, 120, 0.25);
+  border-color: rgba(60, 200, 120, 0.8);
+}
+
+.answer-btn.wrong {
+  background: rgba(220, 80, 80, 0.25);
+  border-color: rgba(220, 80, 80, 0.8);
+}
+
+.quiz-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  gap: 1rem;
+}
+
+.progress {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.next-btn {
+  background: linear-gradient(135deg, #5a6cff, #8f9cff);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.next-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(90, 108, 255, 0.4);
+}
