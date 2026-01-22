@@ -2,6 +2,7 @@ console.log("learning.js loaded");
 
 // Load element data
 const ELEMENTS = window.ELEMENTS_DATA || [];
+const FIRST_20 = ELEMENTS.filter(e => e.atomicNumber <= 20);
 
 console.log("Elements available:", ELEMENTS.length);
 console.log("Sample element:", ELEMENTS[0]);
@@ -21,7 +22,9 @@ const QUESTION_TYPE_LABELS = {
     "symbol-from-name": "Symbols",
     "name-from-symbol": "Element Names",
     "atomic-number": "Atomic Numbers",
-    "category": "Element Categories"
+    "category": "Element Categories",
+    "compare": "Comparison",
+    "comparison": "Property Comparison"
 };
 
 let currentQuestion = null;
@@ -34,6 +37,7 @@ let timeLeft = 15;
 let correctCount = 0;
 let wrongCount = 0;
 let answered = false;
+let questionHistory = [];
 
 const screens = {
     start: document.getElementById("start-screen"),
@@ -55,6 +59,7 @@ startQuizBtn.addEventListener("click", () => {
     correctCount = 0;
     wrongCount = 0;
     questionIndex = 0;
+    questionHistory = [];
 
     showScreen("quiz");
     loadQuestion();
@@ -64,19 +69,35 @@ startQuizBtn.addEventListener("click", () => {
 const difficultyButtons = document.querySelectorAll(".difficulty-btn");
 
 const DIFFICULTY_RULES = {
-    easy: {
-        optionCount: 4,
-        allowedTypes: ["symbol"]
-    },
-    medium: {
-        optionCount: 4,
-        allowedTypes: ["symbol", "atomic-number"]
-    },
-    hard: {
-        optionCount: 4,
-        allowedTypes: ["symbol", "atomic-number", "group", "period"]
-    }
+  easy: {
+    optionCount: 4,
+    elements: FIRST_20,
+    types: ["symbol", "name", "atomic-number"]
+  },
+  medium: {
+    optionCount: 4,
+    elements: ELEMENTS,
+    types: [
+      "symbol",
+      "name",
+      "atomic-number",
+      "category",
+      "compare-first-20"
+    ]
+  },
+  hard: {
+    optionCount: 4,
+    elements: ELEMENTS,
+    types: [
+      "symbol",
+      "name",
+      "atomic-number",
+      "category",
+      "compare-any"
+    ]
+  }
 };
+
 
 difficultyButtons.forEach(btn => {
     btn.addEventListener("click", () => {
@@ -112,11 +133,14 @@ function startTimer() {
 }
 
 function handleTimeout() {
+    if(answered) return;
     wrongCount++;
+    answered = true;
+    nextBtn.disabled = false;
 
-    answerButtons.forEach(b => {
+    answerButtons.forEach(b =>{
         b.disabled = true;
-        if (b.textContent === currentQuestion.correctAnswer) {
+        if (b.textContent == currentQuestion.correctAnswer){
             b.classList.add("correct");
         }
     });
@@ -130,10 +154,32 @@ function showResults() {
     document.getElementById("result-wrong").textContent = wrongCount;
     document.getElementById("result-score").textContent =
         `${correctCount} / ${TOTAL_QUESTIONS}`;
+
+    const reviewList = document.getElementById("review-list");
+    reviewList.innerHTML = "";
+
+    questionHistory.forEach((item, index) => {
+        const div = document.createElement("div");
+        div.className = "review-item";
+
+        div.innerHTML = `
+            <p><strong>${index + 1}. ${item.question}</strong></p>
+            <p>
+                ${item.isCorrect ? "✅" : "❌"}
+                Your Answer: <strong>${item.userAnswer}</strong>
+            </p>
+            ${!item.isCorrect
+                ? `<p>✅ Correct Answer: <strong>${item.correctAnswer}</strong></p>`
+                :""}
+        `;
+
+        reviewList.appendChild(div);
+    });
 }
 
 function randomElement() {
-    return ELEMENTS[Math.floor(Math.random() * ELEMENTS.length)];
+    const pool = DIFFICULTY_RULES[currentDifficulty].elements;
+    return pool[Math.floor(Math.random() * pool.length)];
 }
 
 function shuffle(array) {
@@ -231,39 +277,125 @@ function generateCategoryQuestion() {
     };
 }
 
-const QUESTION_GENERATORS = [
-    {
-        difficulty: "easy",
-        generator: generateSymbolFromNameQuestion
-    },
-    {
-        difficulty: "easy",
-        generator: generateNameFromSymbolQuestion
-    },
-    {
-        difficulty: "medium",
-        generator: generateAtomicNumberQuestion
-    },
-    {
-        difficulty: "medium",
-        generator: generateCategoryQuestion
-    }
-];
+function generateComparisonFirst20() {
+  const pool = FIRST_20;
+  const a = pool[Math.floor(Math.random() * pool.length)];
+  let b = pool[Math.floor(Math.random() * pool.length)];
+
+  while (a.atomicNumber === b.atomicNumber) {
+    b = pool[Math.floor(Math.random() * pool.length)];
+  }
+
+  const correct =
+    a.atomicNumber > b.atomicNumber ? a.name : b.name;
+
+  return {
+    type: "compare",
+    question: `Which element has the higher atomic number?`,
+    correctAnswer: correct,
+    options: shuffle([a.name, b.name])
+  };
+}
+
+function generateComparisonAny() {
+  const a = randomElement();
+  let b = randomElement();
+
+  while (a.atomicNumber === b.atomicNumber) {
+    b = randomElement();
+  }
+
+  const correct =
+    a.atomicNumber > b.atomicNumber ? a.name : b.name;
+
+  return {
+    type: "compare",
+    question: `Which element has the higher atomic number?`,
+    correctAnswer: correct,
+    options: shuffle([a.name, b.name])
+  };
+}
+
+function generateComparisonQuestion({
+  property,
+  label,
+  higherIsCorrect = true,
+  elementPool
+}) {
+  const valid = elementPool.filter(e => typeof e[property] === "number");
+  if (valid.length < 2) return null;
+
+  const [a, b] = shuffle(valid).slice(0, 2);
+
+  const correct =
+    higherIsCorrect
+      ? (a[property] > b[property] ? a : b)
+      : (a[property] < b[property] ? a : b);
+
+  return {
+    type: "comparison",
+    question: `Which element has ${higherIsCorrect ? "higher" : "lower"} ${label}?`,
+    correctAnswer: correct.name,
+    options: shuffle([a.name, b.name])
+  };
+}
+
+function generateMediumComparison() {
+  const modes = [
+    () => generateComparisonFirst20(),
+    () => generateComparisonQuestion({
+      property: "electronegativity",
+      label: "electronegativity",
+      higherIsCorrect: true,
+      elementPool: FIRST_20
+    })
+  ];
+
+  return modes[Math.floor(Math.random() * modes.length)]();
+}
+
+function generateHardComparison() {
+  const properties = [
+    { property: "electronegativity", label: "electronegativity", higherIsCorrect: true },
+    { property: "ionizationEnergy", label: "ionization energy", higherIsCorrect: true },
+    { property: "atomicRadius", label: "atomic radius", higherIsCorrect: false }
+  ];
+
+  const choice = properties[Math.floor(Math.random() * properties.length)];
+
+  return generateComparisonQuestion({
+    ...choice,
+    elementPool: ELEMENTS
+  });
+}
 
 function generateQuestion() {
-    const rules = DIFFICULTY_RULES[currentDifficulty];
-    const type = rules.allowedTypes[
-        Math.floor(Math.random() * rules.allowedTypes.length)
-    ];
+  const rules = DIFFICULTY_RULES[currentDifficulty];
+  const type =
+    rules.types[Math.floor(Math.random() * rules.types.length)];
 
-    switch (type) {
-        case "symbol":
-            return generateSymbolQuestion(currentDifficulty);
-        case "atomic-number":
-            return generateAtomicNumberQuestion(currentDifficulty);
-        default:
-            return generateSymbolQuestion(currentDifficulty);
-    }
+  switch (type) {
+    case "symbol":
+      return generateSymbolQuestion(currentDifficulty);
+
+    case "name":
+      return generateNameFromSymbolQuestion();
+
+    case "atomic-number":
+      return generateAtomicNumberQuestion(currentDifficulty);
+
+    case "category":
+      return generateCategoryQuestion();
+
+    case "compare-first-20":
+      return generateMediumComparison();
+
+    case "compare-any":
+      return generateHardComparison();
+
+    default:
+      return generateSymbolQuestion(currentDifficulty);
+  }
 }
 
 function loadQuestion() {
@@ -305,9 +437,10 @@ function loadQuestion() {
 
 answerButtons.forEach(btn => {
     btn.addEventListener("click", () => {
-        if (!currentQuestion) return;
+        if (!currentQuestion || answered) return;
 
-        const isCorrect = btn.textContent === currentQuestion.correctAnswer;
+        const userAnswer = btn.textContent;
+        const isCorrect = userAnswer === currentQuestion.correctAnswer;
 
         if (isCorrect) {
             btn.classList.add("correct");
@@ -324,6 +457,13 @@ answerButtons.forEach(btn => {
             });
         }
 
+        questionHistory.push({
+            question: currentQuestion.question,
+            correctAnswer: currentQuestion.correctAnswer,
+            userAnswer,
+            isCorrect
+        });
+
         answerButtons.forEach(b => b.disabled = true);
         answered = true;
         nextBtn.disabled = false;
@@ -335,13 +475,3 @@ nextBtn.addEventListener("click", () => {
     if (!answered) return;
     loadQuestion();
 });
-
-/*if (!window.ELEMENTS_DATA || ELEMENTS.length === 0) {
-    console.error("ELEMENTS data not found!");
-} else {
-    console.log("Elements available:", ELEMENTS.length);
-    loadQuestion();
-}
-
-console.log("Difficulty:", currentDifficulty, currentQuestion.type);
-console.log(currentQuestion.type, currentQuestion);*/

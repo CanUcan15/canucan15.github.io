@@ -624,6 +624,7 @@ svg {
 
 /* learning page */
 .learning-container {
+  align-items: center;
   width: 100%;
   max-width: 900px;
   padding: 2rem 1.5rem;
@@ -758,6 +759,7 @@ svg {
 .quiz-screen {
   display: none;
   text-align: center;
+  align-items: center;
 }
 
 .quiz-screen.active {
@@ -785,4 +787,15 @@ svg {
   font-size: 1.25rem;
   font-weight: 600;
   color: #f87171;
+}
+
+.review-item {
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  background: #1e1e1e;
+}
+
+.review-item p {
+  margin: 4px 0;
 }

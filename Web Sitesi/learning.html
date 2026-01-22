@@ -30,7 +30,7 @@
                 <p class="quiz-subtitle">Choose your difficulty</p>
 
                 <div class="difficulty-selector">
-                    <button class="difficulty-btn" data-difficulty="easy">Easy</button>
+                    <button class="difficulty-btn active" data-difficulty="easy">Easy</button>
                     <button class="difficulty-btn" data-difficulty="medium">Medium</button>
                     <button class="difficulty-btn" data-difficulty="hard">Hard</button>
                 </div>
@@ -61,12 +61,15 @@
 
             <div class="quiz-screen" id="result-screen">
                 <h2>Quiz Complete 🎉</h2>
-
-                <span id="result-correct"></span>
-                <span id="result-wrong"></span>
-                <span id="result-score"></span>
+                <br><br>
+                <p>✅ Correct Answers: <span id="result-correct"></span></p>
+                <p>❌ Wrong Answers: <span id="result-wrong"></span></p>
+                <p>🎯 Score: <span id="result-score"></span></p>
 
                 <button class="restart-btn">Restart Quiz</button>
+                <br>
+                <h3>Question Review</h3><br>
+                <div id="review-list"></div>
             </div>
 
         </section>
