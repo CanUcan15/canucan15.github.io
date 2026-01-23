@@ -493,6 +493,7 @@ let flashPool = FIRST_20;
 let flashIndex = 0;
 let showingFront = true;
 
+const flashcard = document.getElementById("flashcard");
 const flashFront = document.getElementById("flash-front");
 const flashBack = document.getElementById("flash-back");
 
@@ -500,24 +501,25 @@ function renderFlashcard() {
   const el = flashPool[flashIndex];
   if (!el) return;
 
+  flashcard.classList.remove("flipped");
+
   flashFront.innerHTML = `
     <h3>${el.name}</h3>
-    <p style="font-size:2rem">${el.symbol}</p>
+    <p>${el.symbol}</p>
   `;
 
   flashBack.innerHTML = `
-    <p>Atomic Number: <strong>${el.atomicNumber}</strong></p>
-    <p>Category: <strong>${el.category || "—"}</strong></p>
-    ${el.electronegativity ? `<p>EN: ${el.electronegativity}</p>` : ""}
+    <p><strong>Atomic Number:</strong> ${el.atomicNumber}</p>
+    <p><strong>Category:</strong> ${el.category || "—"}</p>
+    ${el.electronegativity ? `<p><strong>Electronegativity:</strong> ${el.electronegativity}</p>` : ""}
+    ${el.electronAffinity ? `<p><strong>Electron Affinity:</strong> ${el.electronAffinity}</p>` : ""}
+    <p><strong>Electron Configuration:</strong> ${el.configuration}</p>
+    <p><strong>State at Room Temperature:</strong> ${el.state}</p>
   `;
-
-  flashFront.classList.toggle("hidden", !showingFront);
-  flashBack.classList.toggle("hidden", showingFront);
 }
 
 document.getElementById("flash-flip").addEventListener("click", () => {
-  showingFront = !showingFront;
-  renderFlashcard();
+  flashcard.classList.toggle("flipped");
 });
 
 document.getElementById("flash-next").addEventListener("click", () => {
