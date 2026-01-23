@@ -40,17 +40,28 @@ let answered = false;
 let questionHistory = [];
 
 const screens = {
+    mode: document.getElementById("mode-screen"),
     start: document.getElementById("start-screen"),
     quiz: document.getElementById("quiz-screen"),
-    result: document.getElementById("result-screen")
+    result: document.getElementById("result-screen"),
+    learn: document.getElementById("learn-screen")
 };
 
 function showScreen(name) {
     Object.values(screens).forEach(s => s.classList.remove("active"));
     screens[name].classList.add("active");
-}
+};
 
-showScreen("start");
+showScreen("mode");
+
+document.getElementById("mode-quiz").addEventListener("click", () => {
+  showScreen("start");
+});
+
+document.getElementById("mode-learn").addEventListener("click", () => {
+  showScreen("learn");
+  renderFlashcard();
+});
 
 const startQuizBtn = document.getElementById("start-quiz-btn");
 
@@ -474,4 +485,64 @@ answerButtons.forEach(btn => {
 nextBtn.addEventListener("click", () => {
     if (!answered) return;
     loadQuestion();
+});
+
+// ---------- FLASHCARDS ----------
+
+let flashPool = FIRST_20;
+let flashIndex = 0;
+let showingFront = true;
+
+const flashFront = document.getElementById("flash-front");
+const flashBack = document.getElementById("flash-back");
+
+function renderFlashcard() {
+  const el = flashPool[flashIndex];
+  if (!el) return;
+
+  flashFront.innerHTML = `
+    <h3>${el.name}</h3>
+    <p style="font-size:2rem">${el.symbol}</p>
+  `;
+
+  flashBack.innerHTML = `
+    <p>Atomic Number: <strong>${el.atomicNumber}</strong></p>
+    <p>Category: <strong>${el.category || "—"}</strong></p>
+    ${el.electronegativity ? `<p>EN: ${el.electronegativity}</p>` : ""}
+  `;
+
+  flashFront.classList.toggle("hidden", !showingFront);
+  flashBack.classList.toggle("hidden", showingFront);
+}
+
+document.getElementById("flash-flip").addEventListener("click", () => {
+  showingFront = !showingFront;
+  renderFlashcard();
+});
+
+document.getElementById("flash-next").addEventListener("click", () => {
+  flashIndex = (flashIndex + 1) % flashPool.length;
+  showingFront = true;
+  renderFlashcard();
+});
+
+document.getElementById("flash-prev").addEventListener("click", () => {
+  flashIndex =
+    (flashIndex - 1 + flashPool.length) % flashPool.length;
+  showingFront = true;
+  renderFlashcard();
+});
+
+document.getElementById("flash-first20").addEventListener("click", () => {
+  flashPool = FIRST_20;
+  flashIndex = 0;
+  showingFront = true;
+  renderFlashcard();
+});
+
+document.getElementById("flash-all").addEventListener("click", () => {
+  flashPool = ELEMENTS;
+  flashIndex = 0;
+  showingFront = true;
+  renderFlashcard();
 });

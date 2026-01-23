@@ -20,10 +20,50 @@
             <a class="nav-link" href="contact.html">Contact</a>
         </nav>
     </header>
-    <br><br>
-    <main class="learning-container">
-        <section class="quiz-card">
 
+    <br><br><br>
+
+    <main class="learning-container">
+
+        <section id="mode-screen" class="learning-screen active">
+            <h2>Learning Mode</h2>
+            <p>How would you like to learn the periodic table?</p>
+
+            <div class="mode-buttons">
+                <button id="mode-quiz">🧠 Quiz Mode</button>
+                <button id="mode-learn">📚 Learn Mode</button>
+            </div>
+        </section>
+
+        <section id="learn-screen" class="learning-screen">
+            <h2>Learn the Periodic Table</h2>
+
+            <div class="learn-options">
+                <button id="learn-flashcards">Flash Cards</button>
+                <button id="learn-lectures">Guided Lessons</button>
+            </div>
+
+            <div id="learn-content">
+                <div id="flashcard-controls">
+                    <button id="flash-first20">First 20</button>
+                    <button id="flash-all">All Elements</button>
+                </div>
+
+                <div id="flashcard">
+                    <div id="flash-front" class="flash-face"></div>
+                    <div id="flash-back" class="flash-face hidden"></div>
+                </div>
+
+                <div class="flash-nav">
+                    <button id="flash-prev">⬅ Prev</button>
+                    <button id="flash-flip">🔄 Flip</button>
+                    <button id="flash-next">Next ➡</button>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="quiz-card">
             <div class="quiz-screen active" id="start-screen">
                 <h2 class="quiz-title">Periodic Table Quiz</h2>
 
@@ -67,7 +107,7 @@
                 <p>🎯 Score: <span id="result-score"></span></p>
 
                 <button class="restart-btn">Restart Quiz</button>
-                <br>
+                <br><br><br>
                 <h3>Question Review</h3><br>
                 <div id="review-list"></div>
             </div>

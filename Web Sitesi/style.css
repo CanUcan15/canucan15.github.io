@@ -631,6 +631,7 @@ svg {
 }
 
 .quiz-card {
+  display: block;
   background: linear-gradient(
     135deg,
     rgba(25, 25, 40, 0.95),
@@ -798,4 +799,49 @@ svg {
 
 .review-item p {
   margin: 4px 0;
+}
+
+.learning-screen {
+  display: none;
+  text-align: center;
+}
+
+.learning-screen.active {
+  display: block;
+}
+
+.mode-buttons button {
+  margin: 1rem;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+  color: #fff;
+  border-radius: 6px;
+}
+
+.mode-buttons button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+#flashcard {
+  border: 2px solid var(--accent);
+  border-radius: 16px;
+  padding: 24px;
+  min-height: 180px;
+  margin: 20px auto;
+  max-width: 420px;
+  text-align: center;
+  font-size: 1.2rem;
+  background: #111;
+}
+
+.flash-face.hidden {
+  display: none;
+}
+
+.flash-nav button,
+#flashcard-controls button {
+  margin: 6px;
 }
