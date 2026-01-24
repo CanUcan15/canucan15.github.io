@@ -8,7 +8,7 @@ console.log("Elements available:", ELEMENTS.length);
 console.log("Sample element:", ELEMENTS[0]);
 
 if (!ELEMENTS.length) {
-    console.error("No element data found. Check elements-data.js");
+  console.error("No element data found. Check elements-data.js");
 }
 
 const questionEl = document.querySelector(".question");
@@ -19,12 +19,12 @@ const progressEl = document.querySelector(".progress");
 const quizTypeEl = document.querySelector(".quiz-type");
 
 const QUESTION_TYPE_LABELS = {
-    "symbol-from-name": "Symbols",
-    "name-from-symbol": "Element Names",
-    "atomic-number": "Atomic Numbers",
-    "category": "Element Categories",
-    "compare": "Comparison",
-    "comparison": "Property Comparison"
+  "symbol-from-name": "Symbols",
+  "name-from-symbol": "Element Names",
+  "atomic-number": "Atomic Numbers",
+  "category": "Element Categories",
+  "compare": "Comparison",
+  "comparison": "Property Comparison"
 };
 
 let currentQuestion = null;
@@ -40,16 +40,16 @@ let answered = false;
 let questionHistory = [];
 
 const screens = {
-    mode: document.getElementById("mode-screen"),
-    start: document.getElementById("start-screen"),
-    quiz: document.getElementById("quiz-screen"),
-    result: document.getElementById("result-screen"),
-    learn: document.getElementById("learn-screen")
+  mode: document.getElementById("mode-screen"),
+  start: document.getElementById("start-screen"),
+  quiz: document.getElementById("quiz-screen"),
+  result: document.getElementById("result-screen"),
+  learn: document.getElementById("learn-screen")
 };
 
 function showScreen(name) {
-    Object.values(screens).forEach(s => s.classList.remove("active"));
-    screens[name].classList.add("active");
+  Object.values(screens).forEach(s => s.classList.remove("active"));
+  screens[name].classList.add("active");
 };
 
 showScreen("mode");
@@ -66,15 +66,15 @@ document.getElementById("mode-learn").addEventListener("click", () => {
 const startQuizBtn = document.getElementById("start-quiz-btn");
 
 startQuizBtn.addEventListener("click", () => {
-    score = 0;
-    correctCount = 0;
-    wrongCount = 0;
-    questionIndex = 0;
-    questionHistory = [];
+  score = 0;
+  correctCount = 0;
+  wrongCount = 0;
+  questionIndex = 0;
+  questionHistory = [];
 
-    showScreen("quiz");
-    loadQuestion();
-    startTimer();
+  showScreen("quiz");
+  loadQuestion();
+  startTimer();
 });
 
 const difficultyButtons = document.querySelectorAll(".difficulty-btn");
@@ -111,181 +111,181 @@ const DIFFICULTY_RULES = {
 
 
 difficultyButtons.forEach(btn => {
-    btn.addEventListener("click", () => {
-        currentDifficulty = btn.dataset.difficulty;
+  btn.addEventListener("click", () => {
+    currentDifficulty = btn.dataset.difficulty;
 
-        difficultyButtons.forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
+    difficultyButtons.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
 
-        score = 0;
-        questionIndex = 0;
-        scoreEl.textContent = "Score: 0";
-        answerButtons.forEach(b => b.style.display = "inline-block");
-        nextBtn.style.display = "inline-block";
-    });
+    score = 0;
+    questionIndex = 0;
+    scoreEl.textContent = "Score: 0";
+    answerButtons.forEach(b => b.style.display = "inline-block");
+    nextBtn.style.display = "inline-block";
+  });
 });
 
 const timerEl = document.querySelector(".timer");
 
 function startTimer() {
-    clearInterval(timer);
-    timeLeft = 15;
+  clearInterval(timer);
+  timeLeft = 15;
+  timerEl.textContent = `⏱ ${timeLeft}s`;
+
+  timer = setInterval(() => {
+    timeLeft--;
     timerEl.textContent = `⏱ ${timeLeft}s`;
 
-    timer = setInterval(() => {
-        timeLeft--;
-        timerEl.textContent = `⏱ ${timeLeft}s`;
-
-        if (timeLeft <= 0) {
-            clearInterval(timer);
-            handleTimeout();
-        }
-    }, 1000);
+    if (timeLeft <= 0) {
+      clearInterval(timer);
+      handleTimeout();
+    }
+  }, 1000);
 }
 
 function handleTimeout() {
-    if(answered) return;
-    wrongCount++;
-    answered = true;
-    nextBtn.disabled = false;
+  if (answered) return;
+  wrongCount++;
+  answered = true;
+  nextBtn.disabled = false;
 
-    answerButtons.forEach(b =>{
-        b.disabled = true;
-        if (b.textContent == currentQuestion.correctAnswer){
-            b.classList.add("correct");
-        }
-    });
+  answerButtons.forEach(b => {
+    b.disabled = true;
+    if (b.textContent == currentQuestion.correctAnswer) {
+      b.classList.add("correct");
+    }
+  });
 }
 
 function showResults() {
-    clearInterval(timer);
-    showScreen("result");
+  clearInterval(timer);
+  showScreen("result");
 
-    document.getElementById("result-correct").textContent = correctCount;
-    document.getElementById("result-wrong").textContent = wrongCount;
-    document.getElementById("result-score").textContent =
-        `${correctCount} / ${TOTAL_QUESTIONS}`;
+  document.getElementById("result-correct").textContent = correctCount;
+  document.getElementById("result-wrong").textContent = wrongCount;
+  document.getElementById("result-score").textContent =
+    `${correctCount} / ${TOTAL_QUESTIONS}`;
 
-    const reviewList = document.getElementById("review-list");
-    reviewList.innerHTML = "";
+  const reviewList = document.getElementById("review-list");
+  reviewList.innerHTML = "";
 
-    questionHistory.forEach((item, index) => {
-        const div = document.createElement("div");
-        div.className = "review-item";
+  questionHistory.forEach((item, index) => {
+    const div = document.createElement("div");
+    div.className = "review-item";
 
-        div.innerHTML = `
+    div.innerHTML = `
             <p><strong>${index + 1}. ${item.question}</strong></p>
             <p>
                 ${item.isCorrect ? "✅" : "❌"}
                 Your Answer: <strong>${item.userAnswer}</strong>
             </p>
             ${!item.isCorrect
-                ? `<p>✅ Correct Answer: <strong>${item.correctAnswer}</strong></p>`
-                :""}
+        ? `<p>✅ Correct Answer: <strong>${item.correctAnswer}</strong></p>`
+        : ""}
         `;
 
-        reviewList.appendChild(div);
-    });
+    reviewList.appendChild(div);
+  });
 }
 
 function randomElement() {
-    const pool = DIFFICULTY_RULES[currentDifficulty].elements;
-    return pool[Math.floor(Math.random() * pool.length)];
+  const pool = DIFFICULTY_RULES[currentDifficulty].elements;
+  return pool[Math.floor(Math.random() * pool.length)];
 }
 
 function shuffle(array) {
-    return array.sort(() => Math.random() - 0.5);
+  return array.sort(() => Math.random() - 0.5);
 }
 
 function generateSymbolQuestion(difficulty) {
-    const rule = DIFFICULTY_RULES[difficulty];
-    const correct = randomElement();
+  const rule = DIFFICULTY_RULES[difficulty];
+  const correct = randomElement();
 
-    const wrong = ELEMENTS
-        .filter(e => e.symbol !== correct.symbol)
-        .sort(() => Math.random() - 0.5)
-        .slice(0, rule.optionCount - 1);
+  const wrong = ELEMENTS
+    .filter(e => e.symbol !== correct.symbol)
+    .sort(() => Math.random() - 0.5)
+    .slice(0, rule.optionCount - 1);
 
-    const options = [...wrong, correct].sort(() => Math.random() - 0.5);
+  const options = [...wrong, correct].sort(() => Math.random() - 0.5);
 
-    return {
-        type: "symbol-from-name",
-        question: `What is the symbol for ${correct.name}?`,
-        correctAnswer: correct.symbol,
-        options: options.map(e => e.symbol)
-    };
+  return {
+    type: "symbol-from-name",
+    question: `What is the symbol for ${correct.name}?`,
+    correctAnswer: correct.symbol,
+    options: options.map(e => e.symbol)
+  };
 }
 
 function generateNameFromSymbolQuestion() {
-    const correct = randomElement();
+  const correct = randomElement();
 
-    const wrong = ELEMENTS
-        .filter(e => e.name !== correct.name)
-        .slice(0, 3);
+  const wrong = ELEMENTS
+    .filter(e => e.name !== correct.name)
+    .slice(0, 3);
 
-    const options = shuffle([correct, ...wrong]);
+  const options = shuffle([correct, ...wrong]);
 
-    return {
-        type: "name-from-symbol",
-        question: `Which element has the symbol ${correct.symbol}?`,
-        correctAnswer: correct.name,
-        options: options.map(e => e.name)
-    };
+  return {
+    type: "name-from-symbol",
+    question: `Which element has the symbol ${correct.symbol}?`,
+    correctAnswer: correct.name,
+    options: options.map(e => e.name)
+  };
 }
 
 function generateSymbolFromNameQuestion() {
-    const correct = randomElement();
+  const correct = randomElement();
 
-    const wrong = ELEMENTS
-        .filter(e => e.symbol !== correct.symbol)
-        .slice(0, 3);
+  const wrong = ELEMENTS
+    .filter(e => e.symbol !== correct.symbol)
+    .slice(0, 3);
 
-    const options = shuffle([correct, ...wrong]);
+  const options = shuffle([correct, ...wrong]);
 
-    return {
-        type: "symbol-from-name",
-        question: `What is the symbol for ${correct.name}?`,
-        correctAnswer: correct.symbol,
-        options: options.map(e => e.symbol)
-    };
+  return {
+    type: "symbol-from-name",
+    question: `What is the symbol for ${correct.name}?`,
+    correctAnswer: correct.symbol,
+    options: options.map(e => e.symbol)
+  };
 }
 
 function generateAtomicNumberQuestion(difficulty) {
-    const rule = DIFFICULTY_RULES[difficulty];
-    const correct = randomElement();
+  const rule = DIFFICULTY_RULES[difficulty];
+  const correct = randomElement();
 
-    const wrong = ELEMENTS
-        .filter(e => e.atomicNumber !== correct.atomicNumber)
-        .sort(() => Math.random() - 0.5)
-        .slice(0, rule.optionCount - 1);
+  const wrong = ELEMENTS
+    .filter(e => e.atomicNumber !== correct.atomicNumber)
+    .sort(() => Math.random() - 0.5)
+    .slice(0, rule.optionCount - 1);
 
-    const options = [...wrong, correct].sort(() => Math.random() - 0.5);
+  const options = [...wrong, correct].sort(() => Math.random() - 0.5);
 
-    return {
-        type: "atomic-number",
-        question: `Which element has atomic number ${correct.atomicNumber}?`,
-        correctAnswer: correct.name,
-        options: options.map(e => e.name)
-    };
+  return {
+    type: "atomic-number",
+    question: `Which element has atomic number ${correct.atomicNumber}?`,
+    correctAnswer: correct.name,
+    options: options.map(e => e.name)
+  };
 }
 
 function generateCategoryQuestion() {
-    const valid = ELEMENTS.filter(e => e.category);
+  const valid = ELEMENTS.filter(e => e.category);
 
-    const correct = valid[Math.floor(Math.random() * valid.length)];
+  const correct = valid[Math.floor(Math.random() * valid.length)];
 
-    const wrong = valid
-        .filter(e => e.category !== correct.category)
-        .slice(0, 3);
+  const wrong = valid
+    .filter(e => e.category !== correct.category)
+    .slice(0, 3);
 
-    const options = shuffle([correct, ...wrong]);
+  const options = shuffle([correct, ...wrong]);
 
-    return {
-        type: "category",
-        question: `Which category does ${correct.name} belong to?`,
-        correctAnswer: correct.category,
-        options: options.map(e => e.category)
-    };
+  return {
+    type: "category",
+    question: `Which category does ${correct.name} belong to?`,
+    correctAnswer: correct.category,
+    options: options.map(e => e.category)
+  };
 }
 
 function generateComparisonFirst20() {
@@ -411,80 +411,80 @@ function generateQuestion() {
 
 function loadQuestion() {
 
-    console.log("Loading question...");
+  console.log("Loading question...");
 
-    answered = false;
-    nextBtn.disabled = true;
+  answered = false;
+  nextBtn.disabled = true;
 
-    if (questionIndex >= TOTAL_QUESTIONS) {
-        showResults();
-        return;
-    }
+  if (questionIndex >= TOTAL_QUESTIONS) {
+    showResults();
+    return;
+  }
 
 
-    currentQuestion = generateQuestion();
+  currentQuestion = generateQuestion();
 
-    console.log(currentQuestion);
+  console.log(currentQuestion);
 
-    if (!currentQuestion) return;
-    questionIndex++;
+  if (!currentQuestion) return;
+  questionIndex++;
 
-    startTimer();
+  startTimer();
 
-    questionEl.textContent = currentQuestion.question;
-    quizTypeEl.textContent =
-        QUESTION_TYPE_LABELS[currentQuestion.type] || "Question";
+  questionEl.textContent = currentQuestion.question;
+  quizTypeEl.textContent =
+    QUESTION_TYPE_LABELS[currentQuestion.type] || "Question";
 
-    progressEl.textContent = `Question ${questionIndex} / ${TOTAL_QUESTIONS}`;
-    scoreEl.textContent = `Score: ${score}`;
+  progressEl.textContent = `Question ${questionIndex} / ${TOTAL_QUESTIONS}`;
+  scoreEl.textContent = `Score: ${score}`;
 
-    answerButtons.forEach((btn, i) => {
-        btn.textContent = currentQuestion.options[i];
-        btn.disabled = false;
-        btn.classList.remove("correct", "wrong");
-        btn.style.display = "inline-block";
-    });
+  answerButtons.forEach((btn, i) => {
+    btn.textContent = currentQuestion.options[i];
+    btn.disabled = false;
+    btn.classList.remove("correct", "wrong");
+    btn.style.display = "inline-block";
+  });
 }
 
 answerButtons.forEach(btn => {
-    btn.addEventListener("click", () => {
-        if (!currentQuestion || answered) return;
+  btn.addEventListener("click", () => {
+    if (!currentQuestion || answered) return;
 
-        const userAnswer = btn.textContent;
-        const isCorrect = userAnswer === currentQuestion.correctAnswer;
+    const userAnswer = btn.textContent;
+    const isCorrect = userAnswer === currentQuestion.correctAnswer;
 
-        if (isCorrect) {
-            btn.classList.add("correct");
-            score++;
-            correctCount++;
-            scoreEl.textContent = `Score: ${score}`;
-        } else {
-            btn.classList.add("wrong");
-            wrongCount++
-            answerButtons.forEach(b => {
-                if (b.textContent === currentQuestion.correctAnswer) {
-                    b.classList.add("correct");
-                }
-            });
+    if (isCorrect) {
+      btn.classList.add("correct");
+      score++;
+      correctCount++;
+      scoreEl.textContent = `Score: ${score}`;
+    } else {
+      btn.classList.add("wrong");
+      wrongCount++
+      answerButtons.forEach(b => {
+        if (b.textContent === currentQuestion.correctAnswer) {
+          b.classList.add("correct");
         }
+      });
+    }
 
-        questionHistory.push({
-            question: currentQuestion.question,
-            correctAnswer: currentQuestion.correctAnswer,
-            userAnswer,
-            isCorrect
-        });
-
-        answerButtons.forEach(b => b.disabled = true);
-        answered = true;
-        nextBtn.disabled = false;
-        clearInterval(timer);
+    questionHistory.push({
+      question: currentQuestion.question,
+      correctAnswer: currentQuestion.correctAnswer,
+      userAnswer,
+      isCorrect
     });
+
+    answerButtons.forEach(b => b.disabled = true);
+    answered = true;
+    nextBtn.disabled = false;
+    clearInterval(timer);
+  });
 });
 
 nextBtn.addEventListener("click", () => {
-    if (!answered) return;
-    loadQuestion();
+  if (!answered) return;
+  loadQuestion();
 });
 
 // ---------- FLASHCARDS ----------
@@ -492,10 +492,21 @@ nextBtn.addEventListener("click", () => {
 let flashPool = FIRST_20;
 let flashIndex = 0;
 let showingFront = true;
+let touchStartX = 0;
+let touchEndX = 0;
+let fillBlanksEnabled = false;
+const SWIPE_THRESHOLD = 50;
 
 const flashcard = document.getElementById("flashcard");
 const flashFront = document.getElementById("flash-front");
 const flashBack = document.getElementById("flash-back");
+const scopeButtons = document.querySelectorAll(".flash-scope-btn");
+const flashCounter = document.getElementById("flashcard-counter");
+
+function setActiveScopeButton(activeBtn) {
+  scopeButtons.forEach(btn => btn.classList.remove("active"));
+  activeBtn.classList.add("active");
+}
 
 function renderFlashcard() {
   const el = flashPool[flashIndex];
@@ -508,14 +519,82 @@ function renderFlashcard() {
     <p>${el.symbol}</p>
   `;
 
+  const blanks = fillBlanksEnabled ? pickBlanks(el) : [];
+
   flashBack.innerHTML = `
-    <p><strong>Atomic Number:</strong> ${el.atomicNumber}</p>
-    <p><strong>Category:</strong> ${el.category || "—"}</p>
-    ${el.electronegativity ? `<p><strong>Electronegativity:</strong> ${el.electronegativity}</p>` : ""}
-    ${el.electronAffinity ? `<p><strong>Electron Affinity:</strong> ${el.electronAffinity}</p>` : ""}
-    <p><strong>Electron Configuration:</strong> ${el.configuration}</p>
-    <p><strong>State at Room Temperature:</strong> ${el.state}</p>
-  `;
+  <p>
+    <strong>Atomic Number:</strong>
+    ${blanks.includes("atomicNumber")
+      ? `<input class="blank-input" data-answer="${el.atomicNumber}">`
+      : el.atomicNumber
+    }
+  </p>
+
+  <p>
+    <strong>Category:</strong>
+    ${blanks.includes("category")
+      ? `<input class="blank-input" data-answer="${el.category}">`
+      : (el.category || "—")
+    }
+  </p>
+
+  ${el.electronegativity
+      ? `<p>
+          <strong>Electronegativity:</strong>
+          ${blanks.includes("electronegativity")
+        ? `<input class="blank-input" data-answer="${el.electronegativity}">`
+        : el.electronegativity
+      }
+        </p>`
+      : ""
+    }
+
+  ${el.electronAffinity
+      ? `<p>
+          <strong>Electron Affinity:</strong>
+          ${blanks.includes("electronAffinity")
+        ? `<input class="blank-input" data-answer="${el.electronAffinity}">`
+        : el.electronAffinity
+      }
+        </p>`
+      : ""
+    }
+
+  <p>
+    <strong>State at Room Temperature:</strong>
+    ${blanks.includes("state")
+      ? `<input class="blank-input" data-answer="${el.state}">`
+      : el.state
+    }
+  </p>
+
+  <p><strong>Electron Configuration:</strong> ${el.configuration}</p>
+`;
+
+
+  flashCounter.textContent = `${flashIndex + 1} / ${flashPool.length}`;
+
+  attachBlankChecker();
+}
+
+function attachBlankChecker() {
+  document.querySelectorAll(".blank-input").forEach(input => {
+    input.addEventListener("keydown", e => {
+      if (e.key === "Enter") {
+        checkAllBlanks();
+      }
+    });
+  });
+}
+
+function getBlankableFields(el) {
+  return [
+    { key: "atomicNumber", label: "Atomic Number", value: el.atomicNumber },
+    { key: "category", label: "Category", value: el.category },
+    { key: "electronegativity", label: "Electronegativity", value: el.electronegativity },
+    { key: "electronAffinity", label: "Electron Affinity", value: el.electronAffinity },
+    { key: "state", label: "State at Room Temperature", value: el.state }
+  ].filter(f => f.value != null);
 }
 
 document.getElementById("flash-flip").addEventListener("click", () => {
@@ -523,28 +602,139 @@ document.getElementById("flash-flip").addEventListener("click", () => {
 });
 
 document.getElementById("flash-next").addEventListener("click", () => {
-  flashIndex = (flashIndex + 1) % flashPool.length;
-  showingFront = true;
-  renderFlashcard();
+  animateCard("next", () => {
+    flashIndex = (flashIndex + 1) % flashPool.length;
+    showingFront = true;
+    renderFlashcard();
+  });
 });
 
 document.getElementById("flash-prev").addEventListener("click", () => {
-  flashIndex =
-    (flashIndex - 1 + flashPool.length) % flashPool.length;
-  showingFront = true;
-  renderFlashcard();
+  animateCard("prev", () => {
+    flashIndex =
+      (flashIndex - 1 + flashPool.length) % flashPool.length;
+    showingFront = true;
+    renderFlashcard();
+  });
 });
 
-document.getElementById("flash-first20").addEventListener("click", () => {
+document.getElementById("flash-first20").addEventListener("click", (e) => {
   flashPool = FIRST_20;
   flashIndex = 0;
   showingFront = true;
+  setActiveScopeButton(e.target);
   renderFlashcard();
 });
 
-document.getElementById("flash-all").addEventListener("click", () => {
+document.getElementById("flash-all").addEventListener("click", (e) => {
   flashPool = ELEMENTS;
   flashIndex = 0;
   showingFront = true;
+  setActiveScopeButton(e.target);
   renderFlashcard();
+});
+
+function animateCard(direction, callback) {
+  flashcard.classList.add(
+    direction === "next" ? "slide-left" : "slide-right"
+  );
+  setTimeout(() => {
+    callback();
+    flashcard.classList.remove("slide-left", "slide-right")
+  }, 250);
+}
+
+flashcard.addEventListener("touchstart", e => {
+  touchStartX = e.changedTouches[0].screenX;
+});
+
+flashcard.addEventListener("touchend", e => {
+  touchEndX = e.changedTouches[0].screenX;
+  handleSwipe();
+});
+
+function handleSwipe() {
+  const deltaX = touchEndX - touchStartX;
+
+  if (Math.abs(deltaX) < SWIPE_THRESHOLD) return;
+
+  if (deltaX < 0) {
+    // swipe left → next
+    animateCard("next", () => {
+      flashIndex = (flashIndex + 1) % flashPool.length;
+      renderFlashcard();
+    });
+  } else {
+    // swipe right → prev
+    animateCard("prev", () => {
+      flashIndex =
+        (flashIndex - 1 + flashPool.length) % flashPool.length;
+      renderFlashcard();
+    });
+  }
+}
+
+function shuffleArray(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+}
+
+document.addEventListener("keydown", (e) => {
+  // Don't interfere with inputs later
+  if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
+
+  if (e.key === "ArrowRight") {
+    e.preventDefault();
+    document.getElementById("flash-next").click();
+  }
+
+  if (e.key === "ArrowLeft") {
+    e.preventDefault();
+    document.getElementById("flash-prev").click();
+  }
+
+  if (e.key === " ") {
+    e.preventDefault();
+    document.getElementById("flash-flip").click();
+  }
+});
+
+document.getElementById("flash-shuffle").onclick = () => {
+  shuffleArray(flashPool);
+  flashIndex = 0;
+  renderFlashcard();
+};
+
+document.getElementById("flash-fill-toggle").onclick = () => {
+  fillBlanksEnabled = !fillBlanksEnabled;
+  renderFlashcard();
+};
+
+function pickBlanks(el, count = 2) {
+  return getBlankableFields(el)
+    .sort(() => Math.random() - 0.5)
+    .slice(0, count)
+    .map(f => f.key);
+}
+
+function checkAllBlanks() {
+  document.querySelectorAll(".blank-input").forEach(input => {
+    if (input.disabled) return;
+
+    const correct = input.dataset.answer.toString().toLowerCase();
+    const user = input.value.trim().toLowerCase();
+
+    if (user === correct) {
+      input.classList.add("correct");
+      input.disabled = true;
+    } else {
+      input.classList.add("wrong");
+    }
+  });
+}
+
+document.getElementById("flash-check").addEventListener("click", () => {
+  checkAllBlanks();
 });

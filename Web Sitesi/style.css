@@ -831,6 +831,21 @@ svg {
   height: 240px;
   margin: 24px auto;
   perspective: 1200px;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+#flashcard {
+  touch-action: pan-y;
+}
+
+.flashcard.slide-left {
+  transform: translateX(-20px);
+  opacity: 0;
+}
+
+.flashcard.slide-right {
+  transform: translateX(20px);
+  opacity: 0;
 }
 
 .flashcard-inner {
@@ -933,8 +948,112 @@ svg {
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
 }
 
-
 .flash-btn:disabled {
   opacity: 0.4;
   cursor: not-allowed;
+}
+
+#flashcard-controls {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.flash-scope-btn {
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+  color: #f0f0f0;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.15s ease;
+}
+
+.flash-scope-btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.flash-scope-btn.active {
+  background: rgba(120, 170, 255, 0.35);
+  border-color: rgba(120, 170, 255, 0.6);
+  box-shadow: 0 0 0 1px rgba(120, 170, 255, 0.4);
+}
+
+#flashcard-counter {
+  text-align: center;
+  margin: 8px 0 12px;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.flash-hint {
+  text-align: center;
+  font-size: 0.7rem;
+  opacity: 0.5;
+  margin-top: 6px;
+}
+
+.blank-input {
+  width: 80px;
+  padding: 4px;
+  margin-left: 6px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.blank-input.correct {
+  border-color: #34d43a;
+  background: #53cb5d;
+}
+
+.blank-input.wrong {
+  border-color: #ff1100;
+  background: #f65847;
+}
+
+.flash-check-btn {
+  margin-top: 12px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: none;
+  background: #5c6bc0;
+  color: white;
+  cursor: pointer;
+}
+
+.flash-check-btn:hover {
+  background: #3f51b5;
+}
+
+.flash-fill-toggle {
+  margin-top: 12px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: none;
+  background: #5c6bc0;
+  color: white;
+  cursor: pointer;
+}
+
+.flash-fill-toggle:hover {
+  background: #3f51b5;
+}
+
+.flash-shuffle-btn {
+  margin-top: 12px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: none;
+  background: #5c6bc0;
+  color: white;
+  cursor: pointer;
+}
+
+.flash-shuffle-btn:hover {
+  background: #3f51b5;
 }

@@ -38,15 +38,10 @@
         <section id="learn-screen" class="learning-screen">
             <h2>Learn the Periodic Table</h2>
 
-            <div class="learn-options">
-                <button id="learn-flashcards">Flash Cards</button>
-                <button id="learn-lectures">Guided Lessons</button>
-            </div>
-
             <div id="learn-content">
                 <div id="flashcard-controls">
-                    <button id="flash-first20">First 20</button>
-                    <button id="flash-all">All Elements</button>
+                    <button class="flash-scope-btn active" id="flash-first20">First 20</button>
+                    <button class="flash-scope-btn" id="flash-all">All Elements</button>
                 </div>
 
                 <div id="flashcard" class="flashcard">
@@ -56,11 +51,21 @@
                     </div>
                 </div>
 
+                <button id="flash-fill-toggle" class="flash-fill-toggle">Fill Blanks</button>
+                <button id="flash-check" class="flash-check-btn">Check Answers</button>
+
+                <div id="flashcard-counter"></div>
 
                 <div id="flash-controls" class="flash-controls">
                     <button id="flash-prev" class="flash-btn secondary">⬅ Prev</button>
                     <button id="flash-flip" class="flash-btn primary">🔄 Flip</button>
                     <button id="flash-next" class="flash-btn secondary">Next ➡</button>
+                </div>
+
+                <button id="flash-shuffle" class="flash-shuffle-btn">🔀 Shuffle</button>
+
+                <div class="flash-hint">
+                    ← / → navigate • space to flip
                 </div>
 
             </div>
