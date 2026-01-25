@@ -1044,7 +1044,7 @@ svg {
   background: #3f51b5;
 }
 
-.flash-shuffle-btn {
+.flash-random-btn {
   margin-top: 12px;
   padding: 8px 14px;
   border-radius: 10px;
@@ -1054,6 +1054,6 @@ svg {
   cursor: pointer;
 }
 
-.flash-shuffle-btn:hover {
+.flash-random-btn:hover {
   background: #3f51b5;
 }

@@ -701,11 +701,18 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
-document.getElementById("flash-shuffle").onclick = () => {
-  shuffleArray(flashPool);
-  flashIndex = 0;
-  renderFlashcard();
-};
+document.getElementById("flash-random").addEventListener("click", () => {
+  animateCard("next", () => {
+    let newIndex;
+
+    do {
+      newIndex = Math.floor(Math.random() * flashPool.length);
+    } while (newIndex === flashIndex && flashPool.length > 1);
+
+    flashIndex = newIndex;
+    renderFlashcard();
+  });
+});
 
 document.getElementById("flash-fill-toggle").onclick = () => {
   fillBlanksEnabled = !fillBlanksEnabled;
@@ -737,4 +744,10 @@ function checkAllBlanks() {
 
 document.getElementById("flash-check").addEventListener("click", () => {
   checkAllBlanks();
+});
+
+document.addEventListener("keydown", e => {
+  if (e.key.toLowerCase() === "r") {
+    document.getElementById("flash-random").click();
+  }
 });
