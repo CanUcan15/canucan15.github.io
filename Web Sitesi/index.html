@@ -2362,7 +2362,15 @@
         </div>
     </div>
     <div id="element-tooltip"></div>
+
+    <footer>
+        © <span id="year"></span> Periodic Talbe 2.0 Project
+    </footer>
+    
     <script src="main.js"></script>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
     <canvas id="bg-particles"></canvas>
 </body>
 

@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  // helpers
   const showCardClass = () => infoCard.classList.add('visible');
   const hideCardClass = () => infoCard.classList.remove('visible');
   const hideCard = () => hideCardClass();
@@ -23,13 +22,11 @@ document.addEventListener('DOMContentLoaded', () => {
     return null;
   }
 
-  // delegated click handler
   document.addEventListener('click', function (e) {
     let clickedEl = null;
     try { clickedEl = e.target.closest && e.target.closest('.element'); } catch (err) { clickedEl = null; }
     if (!clickedEl) clickedEl = findElementAncestor(e.target);
 
-    // object/iframe fallback (rare)
     if (!clickedEl) {
       const obj = document.querySelector('object[type="image/svg+xml"], iframe[src$=".svg"]');
       if (obj && obj.contentDocument) {
@@ -52,11 +49,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // clicked an element -> populate & position card
     if (clickedEl) {
       e.stopPropagation();
 
-      // read attributes (defensive)
       const read = (k) => clickedEl.getAttribute(k) ?? clickedEl.dataset?.[k] ?? '';
 
       const name = read('data-name') || read('name') || read('name') || 'Unknown';
@@ -80,7 +75,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const year = read('data-year') || '';
       const magnetic = read('data-magnetic') || '';
 
-      // elements in card
       const nameEl = document.getElementById('info-name');
       const symbolEl = document.getElementById('info-symbol');
       if (symbol) {
@@ -107,7 +101,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const contentEl = infoCard.querySelector('.info-card-content') || infoCard;
 
-      // crossfade content
       contentEl.classList.add('fading');
       setTimeout(() => {
         if (nameEl) nameEl.textContent = name;
@@ -133,16 +126,14 @@ document.addEventListener('DOMContentLoaded', () => {
         contentEl.classList.remove('fading');
       }, 190);
 
-      // --- Robust measurement + positioning (works first time)
       const wasVisible = infoCard.classList.contains('visible');
 
-      // If not visible, temporarily make visible but hidden from pointer and opacity so measurement is accurate
       if (!wasVisible) {
         infoCard.style.visibility = 'hidden';
         infoCard.style.opacity = '0';
         infoCard.style.pointerEvents = 'none';
-        showCardClass();            // sets visible class so layout is computed
-        void infoCard.offsetHeight; // force reflow so measurements are accurate
+        showCardClass();
+        void infoCard.offsetHeight;
       }
 
       const cardRect = infoCard.getBoundingClientRect();
@@ -150,42 +141,33 @@ document.addEventListener('DOMContentLoaded', () => {
       try { elRect = clickedEl.getBoundingClientRect(); }
       catch (err) { elRect = { left: e.clientX, right: e.clientX, top: e.clientY, bottom: e.clientY, width: 0, height: 0 }; }
 
-      // page offsets
       const scrollX = window.scrollX || document.documentElement.scrollLeft || 0;
       const scrollY = window.scrollY || document.documentElement.scrollTop || 0;
 
-      // compute target: to the right of element, vertically centered on element
       const GAP = 12;
       let targetX = elRect.right + scrollX + GAP;
       let targetY = elRect.top + scrollY + (elRect.height - cardRect.height) / 2;
 
-      // flip if overflow to right
       let flipped = false;
       if (targetX + cardRect.width > scrollX + window.innerWidth - 16) {
-        // flip to left side
         targetX = elRect.left + scrollX - cardRect.width - GAP;
         flipped = true;
       }
 
-      // clamp vertically into viewport
       const maxY = scrollY + window.innerHeight - cardRect.height - 8;
       if (targetY > maxY) targetY = maxY;
       if (targetY < scrollY + 8) targetY = scrollY + 8;
 
-      // apply flipped class for arrow direction
       if (flipped) infoCard.classList.add('flipped'); else infoCard.classList.remove('flipped');
 
-      // set final style and restore visibility (let CSS transitions run)
       infoCard.style.left = `${Math.round(targetX)}px`;
       infoCard.style.top = `${Math.round(targetY)}px`;
       infoCard.style.visibility = 'visible';
       infoCard.style.opacity = '';
       infoCard.style.pointerEvents = '';
 
-      // align arrow element (if present) to point at element center
       const arrow = infoCard.querySelector('.info-card-arrow');
       if (arrow) {
-        // recalc cardRect after applying to be safe
         const finalCardRect = infoCard.getBoundingClientRect();
         const elementCenterPageY = elRect.top + scrollY + (elRect.height / 2);
         const cardTopPageY = targetY;
@@ -196,22 +178,18 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // clicking outside elements: hide card unless the click was inside card
     const insideCard = e.target.closest && e.target.closest('#info-card');
     if (!insideCard) hideCard();
   });
 
-  // Escape closes
   document.addEventListener('keydown', e => { if (e.key === 'Escape') hideCard(); });
 
-  // hide at startup
   hideCard();
 
-  // Hover glow (CSS-driven, uses --accent)
   document.querySelectorAll('.element').forEach(el => {
     const rect = el.querySelector('rect');
     const fill = rect ? rect.getAttribute('fill') || '#ffffff' : '#ffffff';
-    // store accent color as a CSS variable on the element (no inline filter)
+
     el.style.setProperty('--accent', fill);
     el.addEventListener('mouseenter', () => el.classList.add('hover-glow'));
     el.addEventListener('mouseleave', () => el.classList.remove('hover-glow'));
@@ -250,8 +228,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-
-  // Background particles (kept as before)
   const canvas = document.getElementById('bg-particles');
   if (canvas) {
     const ctx = canvas.getContext('2d');
@@ -281,7 +257,6 @@ document.addEventListener('DOMContentLoaded', () => {
     animate();
   }
 
-  // --- Zoom & Pan controls (kept from your file) ---
   const zoomRange = document.getElementById('zoomRange');
   const svgTable = document.getElementById('periodic-table');
   const zoomInBtn = document.getElementById('zoomIn');
@@ -337,7 +312,6 @@ document.addEventListener('DOMContentLoaded', () => {
     updateTransform();
   }
 
-  // --- Search Feature ---
   const searchInput = document.getElementById("elementSearch");
   if (searchInput) {
     let lastHighlighted = [];
@@ -345,7 +319,6 @@ document.addEventListener('DOMContentLoaded', () => {
     searchInput.addEventListener("input", (e) => {
       const query = e.target.value.trim().toLowerCase();
 
-      // Clear previous highlights
       lastHighlighted.forEach(el => el.classList.remove("highlight"));
       lastHighlighted = [];
 
@@ -363,12 +336,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // --- Clear Search Button ---
   const clearBtn = document.getElementById("clearSearch");
 
   if (searchInput && clearBtn) {
     searchInput.addEventListener("input", () => {
-      // show or hide X depending on input
       clearBtn.style.display = searchInput.value ? "inline" : "none";
     });
 
@@ -376,7 +347,6 @@ document.addEventListener('DOMContentLoaded', () => {
       searchInput.value = "";
       clearBtn.style.display = "none";
 
-      // remove highlight from all elements
       document.querySelectorAll(".element.highlight").forEach((el) =>
         el.classList.remove("highlight")
       );
@@ -385,12 +355,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // === CATEGORY FILTER ===
   const filterContainer = document.getElementById('category-filters');
   if (!filterContainer) {
     console.warn("⚠️ No filter container found.");
   } else {
-    // When a filter button is clicked
     filterContainer.addEventListener('click', (e) => {
       const btn = e.target.closest('button[data-filter]');
       if (!btn) return;
@@ -398,25 +366,21 @@ document.addEventListener('DOMContentLoaded', () => {
       const filter = btn.getAttribute('data-filter');
       console.log(`Filter selected: ${filter}`);
 
-      // Highlight the active button
       filterContainer.querySelectorAll('button').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
 
-      // Get all element <g> tags (including placeholders)
       const allGroups = document.querySelectorAll('g.element, g.element-group');
 
       allGroups.forEach(g => {
         const isGroup = g.classList.contains('element-group');
         const category = g.getAttribute('data-category');
 
-        // Keep placeholder groups (like lanthanides/actinides labels) always visible base state
         if (isGroup) {
           g.style.opacity = '1';
           g.style.pointerEvents = 'none';
           return;
         }
 
-        // Show/hide elements based on selected filter
         if (filter === 'all' || category === filter) {
           g.style.opacity = '1';
           g.style.pointerEvents = 'auto';
@@ -428,16 +392,13 @@ document.addEventListener('DOMContentLoaded', () => {
         g.style.transition = 'opacity 0.25s ease';
       });
 
-      // === Hide/show lanthanides + actinides placeholders ===
       const lanth = document.getElementById('lanthanides');
       const actin = document.getElementById('actinides');
 
       if (filter === 'all') {
-        // show them when "All" is selected
         if (lanth) lanth.style.display = '';
         if (actin) actin.style.display = '';
       } else {
-        // hide them for any other filter
         if (lanth) lanth.style.opacity = '0.15';
         if (actin) actin.style.opacity = '0.15';
       }

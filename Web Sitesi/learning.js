@@ -1,6 +1,5 @@
 console.log("learning.js loaded");
 
-// Load element data
 const ELEMENTS = window.ELEMENTS_DATA || [];
 const FIRST_20 = ELEMENTS.filter(e => e.atomicNumber <= 20);
 
@@ -31,7 +30,7 @@ let currentQuestion = null;
 let score = 0;
 let questionIndex = 0;
 const TOTAL_QUESTIONS = 10;
-let currentDifficulty = "easy"; // easy, medium, hard
+let currentDifficulty = "easy";
 let timer = null;
 let timeLeft = 15;
 let correctCount = 0;
@@ -487,8 +486,6 @@ nextBtn.addEventListener("click", () => {
   loadQuestion();
 });
 
-// ---------- FLASHCARDS ----------
-
 let flashPool = FIRST_20;
 let flashIndex = 0;
 let showingFront = true;
@@ -659,13 +656,11 @@ function handleSwipe() {
   if (Math.abs(deltaX) < SWIPE_THRESHOLD) return;
 
   if (deltaX < 0) {
-    // swipe left → next
     animateCard("next", () => {
       flashIndex = (flashIndex + 1) % flashPool.length;
       renderFlashcard();
     });
   } else {
-    // swipe right → prev
     animateCard("prev", () => {
       flashIndex =
         (flashIndex - 1 + flashPool.length) % flashPool.length;
@@ -682,7 +677,6 @@ function shuffleArray(arr) {
 }
 
 document.addEventListener("keydown", (e) => {
-  // Don't interfere with inputs later
   if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
 
   if (e.key === "ArrowRight") {

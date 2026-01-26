@@ -56,7 +56,6 @@ nav .nav-link:hover {
   color: #bbb;
 }
 
-/*custom scrollbar*/
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
@@ -79,17 +78,12 @@ nav .nav-link:hover {
   top: 15%;
   left: 50%;
   transform: translate(-50%, -50%);
-  /* center text */
   color: white;
   font-size: 12px;
   font-weight: bold;
   pointer-events: none;
-  /* so it doesn't block clicks on the SVG */
   text-align: center;
 }
-
-
-/* Periodic Table Styles */
 
 .periodic-table {
   position: absolute;
@@ -125,17 +119,11 @@ svg {
   cursor: pointer;
 }
 
-
-/* Info Card Styles */
-
-/* === Redesigned Info Card === */
-
 .info-card {
   position: absolute;
   background: rgba(20, 20, 35, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-left: 4px solid #58a6ff;
-  /* accent line */
   border-radius: 16px;
   padding: 18px 20px;
   color: #fff;
@@ -162,7 +150,6 @@ svg {
   pointer-events: auto;
 }
 
-/* header styling */
 .info-header {
   text-align: center;
   margin-bottom: 10px;
@@ -205,7 +192,6 @@ svg {
   font-weight: 500;
 }
 
-/* cleaner arrow */
 .info-card-arrow {
   position: absolute;
   width: 0;
@@ -228,8 +214,6 @@ svg {
   transform: translateY(-50%) rotate(180deg);
   border-left-color: rgba(20, 20, 35, 0.7);
 }
-
-/* --- Sectioned Info Card --- */
 
 .info-section {
   margin-bottom: 10px;
@@ -262,8 +246,6 @@ svg {
   margin: 8px 0;
 }
 
-/* --- Text Fade Transition for Info Card --- */
-
 .info-card-content {
   opacity: 1;
   transition: opacity 0.25s ease-in-out;
@@ -274,7 +256,6 @@ svg {
   transition: opacity 0.18s ease-in-out;
 }
 
-/* Optional subtle motion for polish */
 .info-card.visible .info-card-content {
   transform: translateY(0);
   transition: opacity 0.25s ease-in-out, transform 0.3s ease-out;
@@ -283,8 +264,6 @@ svg {
 .info-card-content.fading {
   transform: translateY(4px);
 }
-
-/* Background Particles Canvas */
 
 #bg-particles {
   position: fixed;
@@ -296,9 +275,6 @@ svg {
   background: #a082be;
   pointer-events: none;
 }
-
-
-/* Zoom Control Styles */
 
 .zoom-control {
   position: fixed;
@@ -361,8 +337,6 @@ svg {
   transform: scale(1.05);
 }
 
-/* === Search Bar === */
-
 .search-container {
   position: fixed;
   top: 75px;
@@ -409,7 +383,7 @@ svg {
   cursor: pointer;
   padding: 0 4px;
   transition: color 0.2s ease, transform 0.2s ease;
-  display: none; /* hidden until text entered */
+  display: none;
 }
 
 .clear-btn:hover {
@@ -417,7 +391,6 @@ svg {
   transform: scale(1.15);
 }
 
-/* Highlighted search results (SVG-safe) */
 .element.highlight {
   transform-box: fill-box;
   transform-origin: center;
@@ -434,8 +407,6 @@ svg {
   transform: scale(1.05);
   filter: brightness(1.15);
 }
-
-/* Filter */
 
 .category-filters {
   position: fixed;
@@ -456,7 +427,7 @@ svg {
 .category-filters button {
   background: rgba(40, 40, 60, 0.9);
   color: #fff;
-  border: 1px solid rgba(255,255,255,0.25);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 6px;
   padding: 6px 10px;
   cursor: pointer;
@@ -486,8 +457,6 @@ svg {
   }
 }
 
-
-/* CONTACT PAGE */
 .contact-intro {
   grid-column: 1 / -1;
 }
@@ -590,12 +559,12 @@ svg {
 }
 
 .rating span:hover,
-.rating span:hover ~ span {
+.rating span:hover~span {
   color: gold;
 }
 
 .rating span.active,
-.rating span.active ~ span {
+.rating span.active~span {
   color: gold;
 }
 
@@ -613,8 +582,8 @@ svg {
   transform: translateY(6px);
   transition: opacity 0.15s ease, transform 0.15s ease;
   z-index: 10000;
-  border: 1px solid rgba(255,255,255,0.15);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
 }
 
 #element-tooltip.visible {
@@ -622,7 +591,6 @@ svg {
   transform: translateY(0);
 }
 
-/* learning page */
 .learning-container {
   align-items: center;
   width: 100%;
@@ -632,11 +600,9 @@ svg {
 
 .quiz-card {
   display: block;
-  background: linear-gradient(
-    135deg,
-    rgba(25, 25, 40, 0.95),
-    rgba(15, 15, 25, 0.95)
-  );
+  background: linear-gradient(135deg,
+      rgba(25, 25, 40, 0.95),
+      rgba(15, 15, 25, 0.95));
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 16px;
   padding: 2rem;
@@ -1056,4 +1022,10 @@ svg {
 
 .flash-random-btn:hover {
   background: #3f51b5;
+}
+
+footer {
+  margin-top: 3rem;
+  font-size: 0.9rem;
+  opacity: 0.8;
 }

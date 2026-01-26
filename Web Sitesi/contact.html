@@ -46,7 +46,8 @@
         <section class="contact-intro">
             <h1>Get in touch</h1>
             <p>
-                Have feedback, ideas, or spotted something incorrect?<br>Feel free to reach out — I’d love to hear from you.
+                Have feedback, ideas, or spotted something incorrect?<br>Feel free to reach out — I’d love to hear from
+                you.
             </p>
         </section>
 
@@ -79,13 +80,13 @@
                 <input type="text" name="name" placeholder="Your name" required>
                 <input type="email" name="email" placeholder="Your email" required>
                 <textarea name="message" placeholder="Your message" required></textarea>
-                
+
                 <div class="rating">
-                    <span data-value="1">★</span>
-                    <span data-value="2">★</span>
-                    <span data-value="3">★</span>
-                    <span data-value="4">★</span>
                     <span data-value="5">★</span>
+                    <span data-value="4">★</span>
+                    <span data-value="3">★</span>
+                    <span data-value="2">★</span>
+                    <span data-value="1">★</span>
                 </div>
 
                 <input type="hidden" name="rating" id="rating-value">
@@ -96,56 +97,62 @@
             <p id="form-status"></p>
 
         </section>
+
+        <footer>
+            © <span id="year"></span> Periodic Talbe 2.0 Project
+        </footer>
     </main>
 
-<script>
-const stars = document.querySelectorAll(".rating span");
-const ratingInput = document.getElementById("rating-value");
-const form = document.getElementById("contact-form");
-const status = document.getElementById("form-status");
+    <script>
+        const stars = document.querySelectorAll(".rating span");
+        const ratingInput = document.getElementById("rating-value");
+        const form = document.getElementById("contact-form");
+        const status = document.getElementById("form-status");
 
-stars.forEach(star => {
-  star.addEventListener("click", () => {
-    const value = star.dataset.value;
-    ratingInput.value = value;
+        stars.forEach(star => {
+            star.addEventListener("click", () => {
+                const value = star.dataset.value;
+                ratingInput.value = value;
 
-    stars.forEach(s => {
-      s.classList.toggle("active", s.dataset.value <= value);
-    });
-  });
-});
+                stars.forEach(s => {
+                    s.classList.toggle("active", s.dataset.value <= value);
+                });
+            });
+        });
 
-form.addEventListener("submit", (e) => {
-  e.preventDefault();
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
 
-  const name = form.name.value;
-  const email = form.email.value;
-  const message = form.message.value;
-  const rating = ratingInput.value;
+            const name = form.name.value;
+            const email = form.email.value;
+            const message = form.message.value;
+            const rating = ratingInput.value;
 
-  if (!rating) {
-    status.textContent = "⭐ Please select a rating.";
-    return;
-  }
+            if (!rating) {
+                status.textContent = "⭐ Please select a rating.";
+                return;
+            }
 
-  const url =
-    "https://docs.google.com/forms/d/e/1FAIpQLSeeuHvkiwJz9Kwa2TnOVpAJCv9lCJCdWYimIErTCAHWryiA1w/formResponse" +
-    "?entry.241086375=" + encodeURIComponent(name) +
-    "&entry.1066698127=" + encodeURIComponent(email) +
-    "&entry.1742543053=" + encodeURIComponent(message) +
-    "&entry.447685557=" + encodeURIComponent(rating);
+            const url =
+                "https://docs.google.com/forms/d/e/1FAIpQLSeeuHvkiwJz9Kwa2TnOVpAJCv9lCJCdWYimIErTCAHWryiA1w/formResponse" +
+                "?entry.241086375=" + encodeURIComponent(name) +
+                "&entry.1066698127=" + encodeURIComponent(email) +
+                "&entry.1742543053=" + encodeURIComponent(message) +
+                "&entry.447685557=" + encodeURIComponent(rating);
 
-  fetch(url, { mode: "no-cors" })
-    .then(() => {
-      status.textContent = "✅ Message sent. Thank you!";
-      form.reset();
-      stars.forEach(s => s.classList.remove("active"));
-    })
-    .catch(() => {
-      status.textContent = "❌ Something went wrong.";
-    });
-});
-</script>
+            fetch(url, { mode: "no-cors" })
+                .then(() => {
+                    status.textContent = "✅ Message sent. Thank you!";
+                    form.reset();
+                    stars.forEach(s => s.classList.remove("active"));
+                })
+                .catch(() => {
+                    status.textContent = "❌ Something went wrong.";
+                });
+        });
+
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
 
 
 </body>
