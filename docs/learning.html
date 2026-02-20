@@ -120,8 +120,16 @@
 
         </section>
     </main>
+
+    <footer>
+        © <span id="year"></span> Periodic Table 2.0 Project
+    </footer>
+    
     <script src="elements-data.js"></script>
     <script src="learning.js"></script>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
 </body>
 
 </html>
